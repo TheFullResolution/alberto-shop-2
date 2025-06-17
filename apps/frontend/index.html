@@ -3,23 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alberto Shop Frontend</title>
+    <title>Alberto Shop - LEGO Saturn V Checkout</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div id="app">
-        <header>
-            <h1>Alberto Shop</h1>
-            <p>Simple frontend application</p>
+<body class="bg-gray-50 min-h-screen">
+    <div id="app" class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">Alberto Shop</h1>
+            <p class="text-gray-600">Premium LEGO Collection</p>
         </header>
         
-        <main>
-            <section id="server-status">
-                <h2>Server Status</h2>
-                <button id="check-server">Check Server</button>
-                <div id="status-result"></div>
-            </section>
-        </main>
+        <!-- Product Section -->
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div class="space-y-4">
+                <img src="/lego.jpg" 
+                     alt="LEGO Saturn V Rocket" 
+                     class="product-image">
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-gray-900">LEGO Saturn V</h2>
+                    <p class="text-3xl font-bold text-blue-600 mt-2">£101.00</p>
+                </div>
+            </div>
+            
+            <!-- Order Form -->
+            <div id="order-form" class="checkout-form">
+                <div class="form-section">
+                    <h3>Order Details</h3>
+                    <div class="form-grid">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
+                            <input type="number" id="quantity" value="1" min="1" class="form-input">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Size</label>
+                            <select id="size" class="form-select">
+                                <option value="s">Small</option>
+                                <option value="m" selected>Medium</option>
+                                <option value="l">Large</option>
+                                <option value="xl">Extra-Large</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Amount (pence)</label>
+                            <input type="number" id="amount" value="10100" min="1" class="form-input">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Currency</label>
+                            <input type="text" id="currency" value="GBP" class="form-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Customer Details</h3>
+                    <div class="form-grid">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                            <input type="text" id="first-name" class="form-input">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                            <input type="text" id="last-name" class="form-input">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" id="email-address" class="form-input">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                            <input type="tel" id="mobile-number" class="form-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Billing Address</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Address Line 1</label>
+                            <input type="text" id="address-line1" class="form-input">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Address Line 2</label>
+                            <input type="text" id="address-line2" class="form-input">
+                        </div>
+                        <div class="form-grid">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">City</label>
+                                <input type="text" id="city" class="form-input">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">State</label>
+                                <input type="text" id="state" class="form-input">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Postal Code</label>
+                                <input type="text" id="postal-code" class="form-input">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                                <input type="text" id="country" class="form-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <button id="autofill-button" class="btn-secondary flex-1">Autofill Demo Data</button>
+                    <button id="submit-button" class="btn-primary flex-1">Proceed to Checkout</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Checkout Container -->
+        <div id="checkout-container" class="hidden">
+            <div class="checkout-form">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">Complete Your Payment</h2>
+                <primer-checkout client-token=""></primer-checkout>
+            </div>
+        </div>
+        
+        <!-- Status Messages -->
+        <div id="status-result" class="mt-6"></div>
     </div>
     
     <script type="module" src="main.js"></script>
