@@ -16,12 +16,13 @@ const PRIMER_API_URLS = {
   SANDBOX: 'https://api.sandbox.primer.io',
   STAGING: 'https://api.staging.primer.io',
   PRODUCTION: 'https://api.primer.io',
-  DEV: 'https://api.dev.primer.io'
+  DEV: 'https://api.dev.primer.io',
 };
 
 const API_KEY = process.env.PRIMER_API_KEY;
 const API_VERSION = process.env.PRIMER_API_VERSION || '2.2';
-const PRIMER_API_URL = PRIMER_API_URLS[process.env.PRIMER_API_ENVIRONMENT || 'SANDBOX'];
+const PRIMER_API_URL =
+  PRIMER_API_URLS[process.env.PRIMER_API_ENVIRONMENT || 'SANDBOX'];
 
 // Basic route
 app.get('/', (req, res) => {
@@ -36,29 +37,29 @@ app.get('/health', (req, res) => {
 // Create client session for Primer.io checkout
 app.post('/client-session', async (req, res) => {
   console.log('Creating client session for Primer.io');
-  
+
   const { orderInfo } = req.body;
-  
+
   if (!API_KEY) {
     return res.status(500).json({ error: 'Primer API key not configured' });
   }
 
   const requestBody = orderInfo || getDefaultOrderInfo();
-  
+
   try {
     const response = await fetch(`${PRIMER_API_URL}/client-session`, {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
         'X-Api-Version': API_VERSION,
-        'X-Api-Key': API_KEY
+        'X-Api-Key': API_KEY,
       },
-      body: JSON.stringify(requestBody)
+      body: JSON.stringify(requestBody),
     });
 
     const data = await response.json();
-    
+
     if (!response.ok) {
       console.error('Primer API error:', data);
       return res.status(response.status).json(data);
@@ -90,27 +91,31 @@ const getDefaultOrderInfo = () => {
         addressLine1: '6 Blissett Street',
         city: 'London',
         postalCode: 'SE10 8UP',
-        countryCode: 'GB'
-      }
+        countryCode: 'GB',
+      },
     },
     order: {
-      lineItems: [{
-        itemId: 'lego-saturn-v',
-        description: 'LEGO Saturn V Rocket',
-        amount: 10100,
-        quantity: 1
-      }],
-      countryCode: 'GB'
+      lineItems: [
+        {
+          itemId: 'lego-saturn-v',
+          description: 'LEGO Saturn V Rocket',
+          amount: 10100,
+          quantity: 1,
+        },
+      ],
+      countryCode: 'GB',
     },
     paymentMethod: {
       paymentType: 'FIRST_PAYMENT',
-      vaultOnSuccess: false
-    }
+      vaultOnSuccess: false,
+    },
   };
 };
 
 app.listen(PORT, () => {
   console.log(`Alberto Shop server running on port ${PORT}`);
-  console.log(`Primer API Environment: ${process.env.PRIMER_API_ENVIRONMENT || 'SANDBOX'}`);
+  console.log(
+    `Primer API Environment: ${process.env.PRIMER_API_ENVIRONMENT || 'SANDBOX'}`
+  );
   console.log(`Visit: http://localhost:${PORT}`);
 });
